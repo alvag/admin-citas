@@ -5,7 +5,7 @@ export const Form = () => {
                 Seguimeinto Pacientes
             </h2>
 
-            <p className="text-lg mt-5 mb-10 text-center">
+            <p className="text-xl mt-5 mb-10 text-center">
                 Añade Pacientes y {''}
                 <span className="text-indigo-600 font-bold">Adminístralos</span>
             </p>
