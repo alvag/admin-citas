@@ -4,12 +4,12 @@ import { PatientList } from './components/PatientList';
 
 function App() {
     return (
-        <>
+        <div className="container mx-auto">
             <Header />
             <Form />
             <PatientList />
             <h1>Hola Mundo</h1>
-        </>
+        </div>
     );
 }
 

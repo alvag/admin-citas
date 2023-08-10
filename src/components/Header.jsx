@@ -1,3 +1,8 @@
 export const Header = () => {
-    return <div>Header</div>;
+    return (
+        <h1 className="font-black text-5xl text-center md:w-1/2 mx-auto">
+            Seguimiento Pacientes {''}
+            <span className="text-indigo-600">Veretinaria</span>
+        </h1>
+    );
 };
