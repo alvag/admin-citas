@@ -1,10 +1,16 @@
-function App() {
+import { Form } from './components/Form';
+import { Header } from './components/Header';
+import { PatientList } from './components/PatientList';
 
-  return (
-    <>
-     <h1>Hola Mundo</h1>
-    </>
-  )
+function App() {
+    return (
+        <>
+            <Header />
+            <Form />
+            <PatientList />
+            <h1>Hola Mundo</h1>
+        </>
+    );
 }
 
-export default App
+export default App;
