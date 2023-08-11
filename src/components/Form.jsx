@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Error } from './Error';
 
-export const Form = ({ setPatients, patients }) => {
+export const Form = ({ setPatients, patient, setPatient }) => {
     const [name, setName] = useState('');
     const [owner, setOwner] = useState('');
     const [email, setEmail] = useState('');
@@ -10,6 +10,16 @@ export const Form = ({ setPatients, patients }) => {
     const [symptoms, setSymptoms] = useState('');
 
     const [error, setError] = useState(false);
+
+    useEffect(() => {
+        if (Object.keys(patient).length === 0) return;
+
+        setName(patient.name);
+        setOwner(patient.owner);
+        setEmail(patient.email);
+        setDate(patient.date);
+        setSymptoms(patient.symptoms);
+    }, [patient]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,17 +32,35 @@ export const Form = ({ setPatients, patients }) => {
 
         setError(false);
 
-        setPatients([
-            {
-                id: Date.now(),
-                name,
-                owner,
-                email,
-                date,
-                symptoms,
-            },
-            ...patients,
-        ]);
+        setPatients((prevPatients) => {
+            if (Object.keys(patient).length !== 0) {
+                return prevPatients.map((prevPatient) =>
+                    prevPatient.id === patient.id
+                        ? {
+                              id: patient.id,
+                              name,
+                              owner,
+                              email,
+                              date,
+                              symptoms,
+                          }
+                        : prevPatient
+                );
+            }
+            return [
+                {
+                    id: Date.now(),
+                    name,
+                    owner,
+                    email,
+                    date,
+                    symptoms,
+                },
+                ...prevPatients,
+            ];
+        });
+
+        setPatient({});
 
         setName('');
         setOwner('');
@@ -146,7 +174,9 @@ export const Form = ({ setPatients, patients }) => {
                 <input
                     type="submit"
                     className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer rounded-md"
-                    value="Agregar Paciente"
+                    value={
+                        patient?.id ? 'Actualizar Paciente' : 'Agregar Paciente'
+                    }
                 />
             </form>
         </div>
@@ -155,5 +185,6 @@ export const Form = ({ setPatients, patients }) => {
 
 Form.propTypes = {
     setPatients: PropTypes.func.isRequired,
-    patients: PropTypes.array.isRequired,
+    setPatient: PropTypes.func.isRequired,
+    patient: PropTypes.object.isRequired,
 };

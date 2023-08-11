@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 import { PatientCard } from './PatientCard';
 
-export const PatientList = ({ patients = [] }) => {
-    useEffect(() => {
-        console.log(patients);
-    }, [patients]);
+export const PatientList = ({ patients = [], setPatients, setPatient }) => {
+    const handleDelete = (id) => {
+        const newPatients = patients.filter((patient) => patient.id !== id);
+        setPatients(newPatients);
+    };
 
     return (
         <div className="md:w-1/2 lg:w-3/5 mb-10 md:h-screen overflow-y-scroll">
@@ -20,8 +20,19 @@ export const PatientList = ({ patients = [] }) => {
                 </span>
             </p>
 
+            {!patients.length && (
+                <div className="m-3 bg-indigo-600 text-white p-2 rounded text-center">
+                    <p>No hay pacientes registrados</p>
+                </div>
+            )}
+
             {patients.map((patient) => (
-                <PatientCard key={patient.id} patient={patient} />
+                <PatientCard
+                    key={patient.id}
+                    patient={patient}
+                    handleDelete={handleDelete}
+                    setPatient={setPatient}
+                />
             ))}
         </div>
     );
@@ -29,4 +40,6 @@ export const PatientList = ({ patients = [] }) => {
 
 PatientList.propTypes = {
     patients: PropTypes.array.isRequired,
+    setPatients: PropTypes.func.isRequired,
+    setPatient: PropTypes.func.isRequired,
 };
