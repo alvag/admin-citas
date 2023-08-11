@@ -1,5 +1,8 @@
 import { useState } from 'react';
-export const Form = () => {
+import PropTypes from 'prop-types';
+import { Error } from './Error';
+
+export const Form = ({ setPatients, patients }) => {
     const [name, setName] = useState('');
     const [owner, setOwner] = useState('');
     const [email, setEmail] = useState('');
@@ -19,6 +22,24 @@ export const Form = () => {
 
         setError(false);
 
+        setPatients([
+            {
+                id: Date.now(),
+                name,
+                owner,
+                email,
+                date,
+                symptoms,
+            },
+            ...patients,
+        ]);
+
+        setName('');
+        setOwner('');
+        setEmail('');
+        setDate('');
+        setSymptoms('');
+
         console.log('Formulario enviado');
     };
 
@@ -37,11 +58,7 @@ export const Form = () => {
                 className="bg-white shadow-md rounded-lg py-10 px-5 flex flex-col gap-5"
                 onSubmit={handleSubmit}
             >
-                {error && (
-                    <div className="bg-red-600 text-white p-2 rounded">
-                        <p>Todos los campos son obligatorios</p>
-                    </div>
-                )}
+                {error && <Error message="Todos los campos son oblogatorios" />}
 
                 <div>
                     <label
@@ -134,4 +151,9 @@ export const Form = () => {
             </form>
         </div>
     );
+};
+
+Form.propTypes = {
+    setPatients: PropTypes.func.isRequired,
+    patients: PropTypes.array.isRequired,
 };
